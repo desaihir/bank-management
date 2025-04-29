@@ -7,7 +7,7 @@ class BankAccount {
 private:
     string accountHolderName;
     int balance;
-    // string accountNumber;
+    string accountNumber;
     char aT;
     string accountType;
     string address;
@@ -16,16 +16,20 @@ public:
     void depositMoney();
     void withdrawMoney();
     void checkBalance();
+    string generateAccountNumber();
 };
 
 void BankAccount::openAccount() {
-    cout << "Enter account holder name: ";
+    cout << "Enter account holder name:";
     cin.ignore();
     getline(cin, accountHolderName);
+
     balance = 0; // Initial balance is set to 0
-    cout << "Enter your address: ";
-    cin.ignore();
+
+    cout << "Enter your address:";
+    // cin.ignore();
     getline(cin, address); 
+
     cout<<"Enter the type of account Savings (s) or Current(c): ";
     cin >> aT;
     if(aT == 's' || aT == 'S') {
@@ -36,10 +40,26 @@ void BankAccount::openAccount() {
         cout << "Invalid account type. Please enter 's' for Savings or 'c' for Current." << endl;
         return;
     }
+
+    accountNumber = generateAccountNumber(); // Generate a random account number
+    
+    cout << "Account number: " << accountNumber << endl;
     cout << "Account type: " << accountType << endl;
+
     cout<<"Enter amount to deposit: ";
     cin >> balance;
+    
     cout << "Account opened successfully for " << accountHolderName << endl;
+}
+
+string BankAccount::generateAccountNumber() {
+    srand(time(0)); 
+
+    string accountNumber = "";
+    for (int i = 0; i < 10; ++i) {  // Generate a 10-digit number
+        accountNumber += to_string(rand() % 10);  // Append random digits to the account number
+    }
+    return accountNumber;
 }
 
 void BankAccount::depositMoney() {
@@ -72,6 +92,7 @@ void BankAccount::withdrawMoney() {
 
 void BankAccount::checkBalance() {
     cout << "Account holder: " << accountHolderName << endl;
+    cout << "Account number: " << accountNumber << endl;
     cout << "Account type: " << accountType << endl;
     cout << "Address: " << address << endl;
     cout << "Current balance: " << balance << endl;
